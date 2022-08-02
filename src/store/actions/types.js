@@ -1,0 +1,6 @@
+const types = {
+  GET_CHARACTERS: 'GET_CHARACTERS',
+  GET_CHARACTERS_SUCCESS: 'GET_CHARACTERS_SUCCESS',
+};
+
+export default types;

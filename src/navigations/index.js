@@ -5,6 +5,7 @@ import Home from '../components/Home';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import colors from '../styles/colors';
 import {StyleSheet} from 'react-native';
+import Details from '../components/Details';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,6 +18,11 @@ function AppNavigator() {
             <Stack.Screen
               name="Home"
               component={Home}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="Details"
+              component={Details}
               options={{headerShown: false}}
             />
           </Stack.Navigator>

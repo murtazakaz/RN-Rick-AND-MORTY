@@ -6,9 +6,10 @@ import Icons from '../Icons';
 import colors from '../../../styles/colors';
 import normalize from 'react-native-normalize';
 
-const Lists = ({data}) => {
+const Lists = ({data, navigation}) => {
   const [listType, setListType] = useState('list');
   const {
+    container,
     gridItemContainer,
     itemContainer,
     imageStyle,
@@ -30,7 +31,12 @@ const Lists = ({data}) => {
     listOptionGrid,
     listOption,
     details,
+    listContainer,
   } = style;
+
+  const goToDetails = (item, index) => {
+    navigation.navigate('Details', {item, index});
+  };
 
   const getStatusStyle = status => {
     switch (status) {
@@ -50,7 +56,9 @@ const Lists = ({data}) => {
   const listView = ({item, index}) => {
     const {name, image, status, species, origin, episode, isFavourite} = item;
     return (
-      <View style={itemContainer}>
+      <TouchableOpacity
+        onPress={() => goToDetails(item, index)}
+        style={itemContainer}>
         <View style={col1}>
           <Image source={{uri: image}} style={imageStyle} />
         </View>
@@ -75,7 +83,7 @@ const Lists = ({data}) => {
             color={colors.white}
           />
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
@@ -107,7 +115,7 @@ const Lists = ({data}) => {
   };
 
   return (
-    <View>
+    <>
       <View style={listOptionContainer}>
         <TouchableOpacity
           onPress={() => changeListType('list')}
@@ -122,13 +130,15 @@ const Lists = ({data}) => {
       </View>
 
       <FlatList
+        // style={{flex: 1}}
+        style={listContainer}
         extraData={listType}
         numColumns={listType === 'grid' ? 2 : 1}
         key={listType === 'grid' ? 2 : 1}
         data={data}
         renderItem={renderItems}
       />
-    </View>
+    </>
   );
 };
 

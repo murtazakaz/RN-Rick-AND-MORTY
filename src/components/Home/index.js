@@ -1,10 +1,13 @@
-import {Text, View} from 'react-native';
-import React, {Component} from 'react';
+import {ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import React, {Component, useEffect, useState} from 'react';
 import Lists from '../sharedComponents/Lists';
 import colors from '../../styles/colors';
 import Header from '../sharedComponents/Header';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import style from './style';
+import {useDispatch, useSelector} from 'react-redux';
+import {getCharacters} from '../../store/actions/characterActions';
+import {getURLParams} from '../../utils/helper';
 
 const dummy_data =
   // 20220802174438
@@ -657,12 +660,53 @@ const dummy_data =
     ],
   };
 
-const Home = () => {
-  const {container} = style;
+const Home = ({navigation}) => {
+  const dispatch = useDispatch();
+  const {info, data} = useSelector(state => state.character);
+  const [page, setPage] = useState(1);
+
+  useEffect(() => {
+    dispatch(getCharacters(page));
+  }, []);
+
+  const goToNextPage = () => {
+    if (info.next) {
+      const params = getURLParams(info.next);
+      if (params.page) {
+        dispatch(getCharacters(params.page));
+        setPage(params.page);
+      }
+    }
+  };
+
+  const goToPrevPage = () => {
+    if (info.prev) {
+      const params = getURLParams(info.prev);
+      if (params.page) {
+        dispatch(getCharacters(params.page));
+        setPage(params.page);
+      }
+    }
+  };
+
+  const {container, content, paginationContainer} = style;
   return (
     <View style={container}>
       <Header title={'Rick & Morty'} favourite />
-      <Lists data={dummy_data.results} />
+
+      <View style={content}>
+        <Lists data={data[page] || []} navigation={navigation} />
+      </View>
+
+      <View style={paginationContainer}>
+        <TouchableOpacity onPress={goToPrevPage}>
+          <Text>Previous</Text>
+        </TouchableOpacity>
+        <Text>{page}</Text>
+        <TouchableOpacity onPress={goToNextPage}>
+          <Text>Next</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };

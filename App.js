@@ -13,10 +13,10 @@ import AppNavigator from './src/navigations';
 import {store, persistor} from './src/store';
 
 const App = () => (
-  //   <Provider store={store}>
-  //     <PersistGate loading={null} persistor={persistor}>
-  <AppNavigator />
-  //     </PersistGate>
-  //   </Provider>
+  <Provider store={store}>
+    <PersistGate loading={null} persistor={persistor}>
+      <AppNavigator />
+    </PersistGate>
+  </Provider>
 );
 export default App;

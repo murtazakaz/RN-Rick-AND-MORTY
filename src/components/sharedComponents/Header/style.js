@@ -6,8 +6,7 @@ export default StyleSheet.create({
   container: {
     backgroundColor: colors.primary,
     height: normalize(50),
-    justifyContent: 'center',
-    marginBottom: normalize(20),
+    // justifyContent: 'center',
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: normalize(10),
@@ -17,5 +16,8 @@ export default StyleSheet.create({
     color: colors.white,
     fontWeight: '700',
     flex: 1,
+  },
+  headerBack: {
+    flexDirection: 'row',
   },
 });

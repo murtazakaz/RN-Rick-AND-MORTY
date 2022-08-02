@@ -3,6 +3,9 @@ import normalize from 'react-native-normalize';
 import colors from '../../../styles/colors';
 
 export default StyleSheet.create({
+  container: {
+    // flex: 1,
+  },
   gridItemContainer: {
     backgroundColor: colors.primary,
     marginHorizontal: normalize(10),
@@ -97,4 +100,12 @@ export default StyleSheet.create({
     borderBottomRightRadius: normalize(10),
     backgroundColor: colors.secondary,
   },
+  paginationContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    backgroundColor: 'white',
+    paddingVertical: normalize(20),
+  },
+  listContainer: {height: '80%'},
 });
