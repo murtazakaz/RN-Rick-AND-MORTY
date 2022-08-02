@@ -4,12 +4,24 @@ import React, {useState} from 'react';
 import style from './style';
 import Icons from '../Icons';
 import colors from '../../../styles/colors';
-import normalize from 'react-native-normalize';
+import {getEpisodeNumber} from '../../../utils/helper';
+import {useDispatch, useSelector} from 'react-redux';
+import {changeListViewType} from '../../../store/actions/settingActions';
+import Filters from '../Filters';
 
-const Lists = ({data, navigation}) => {
-  const [listType, setListType] = useState('list');
+const Lists = ({
+  data,
+  episodes,
+  navigation,
+  markFavorite,
+  favorites,
+  isFavorite,
+}) => {
+  const dispatch = useDispatch();
+  const listViewType = useSelector(state => state.settings.listViewType);
+  const [filter, setFilter] = useState(false);
+
   const {
-    container,
     gridItemContainer,
     itemContainer,
     imageStyle,
@@ -32,6 +44,9 @@ const Lists = ({data, navigation}) => {
     listOption,
     details,
     listContainer,
+    gridTitle,
+    row,
+    header,
   } = style;
 
   const goToDetails = (item, index) => {
@@ -50,11 +65,12 @@ const Lists = ({data, navigation}) => {
   };
 
   const changeListType = type => {
-    setListType(type);
+    dispatch(changeListViewType(type));
   };
 
   const listView = ({item, index}) => {
-    const {name, image, status, species, origin, episode, isFavourite} = item;
+    const {name, image, status, species, origin, episode} = item;
+    const eps = episodes[getEpisodeNumber(episode[0])];
     return (
       <TouchableOpacity
         onPress={() => goToDetails(item, index)}
@@ -74,41 +90,61 @@ const Lists = ({data, navigation}) => {
           </View>
 
           <Text style={label}>First seen in</Text>
-          <Text style={value}>{episode.length ? episode[0] : 'N/A'}</Text>
+          <Text style={value}>
+            {eps ? `${eps.episode} - ${eps.name}` : 'N/A'}
+          </Text>
         </View>
-        <View style={col3}>
+        <TouchableOpacity onPress={() => markFavorite(item)} style={col3}>
           <Icons
-            name={isFavourite ? 'bookmark' : 'bookmark-outline'}
+            name={favorites[item.id] ? 'bookmark' : 'bookmark-outline'}
             size={20}
-            color={colors.white}
+            color={favorites[item.id] ? colors.orange : colors.white}
           />
-        </View>
+        </TouchableOpacity>
       </TouchableOpacity>
     );
   };
 
   const gridView = ({item, index}) => {
     const {name, image, status, species, origin, episode} = item;
+    const eps = episodes[getEpisodeNumber(episode[0])];
     return (
-      <View style={gridItemContainer}>
-        <View style={col1}>
-          <Image source={{uri: image}} style={gridImageStyle} />
-        </View>
+      <TouchableOpacity
+        onPress={() => goToDetails(item, index)}
+        style={gridItemContainer}>
+        <Image source={{uri: image}} style={gridImageStyle} />
+
         <View style={gridCol2}>
-          <Text style={title}>{name}</Text>
+          <View style={row}>
+            <Text style={gridTitle}>{name}</Text>
+            <TouchableOpacity onPress={() => markFavorite(item)}>
+              <Icons
+                name={favorites[item.id] ? 'bookmark' : 'bookmark-outline'}
+                size={20}
+                color={favorites[item.id] ? colors.orange : colors.white}
+              />
+            </TouchableOpacity>
+          </View>
+
           <View style={statusContainer}>
             <View style={[statusIcon, getStatusStyle(status)]} />
             <Text style={statusText}>{`${status} - ${species}`}</Text>
           </View>
-          <Text style={label}>Origin</Text>
-          <Text style={value}>{origin.name}</Text>
+          <View style={details}>
+            <Text style={label}>Origin</Text>
+            <Text style={value}>{origin.name}</Text>
+          </View>
+          <Text style={label}>First seen in</Text>
+          <Text style={value}>
+            {eps ? `${eps.episode} - ${eps.name}` : 'N/A'}
+          </Text>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
   const renderItems = ({item, index}) => {
-    if (listType === 'grid') {
+    if (listViewType === 'grid') {
       return gridView({item, index});
     }
     return listView({item, index});
@@ -116,27 +152,38 @@ const Lists = ({data, navigation}) => {
 
   return (
     <>
-      <View style={listOptionContainer}>
-        <TouchableOpacity
-          onPress={() => changeListType('list')}
-          style={[listOption, listType !== 'grid' && listOptionList]}>
-          <Icons name="list-outline" size={20} color={colors.white} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => changeListType('grid')}
-          style={[listOption, listType === 'grid' && listOptionGrid]}>
-          <Icons name="grid-outline" size={20} color={colors.white} />
-        </TouchableOpacity>
+      <View style={header}>
+        <View style={listOptionContainer}>
+          <TouchableOpacity
+            onPress={() => setFilter(true)}
+            style={[listOption, listViewType !== 'grid' && listOptionList]}>
+            <Icons name="search-outline" size={20} color={colors.white} />
+          </TouchableOpacity>
+        </View>
+        <View style={listOptionContainer}>
+          <TouchableOpacity
+            onPress={() => changeListType('list')}
+            style={[listOption, listViewType !== 'grid' && listOptionList]}>
+            <Icons name="list-outline" size={20} color={colors.white} />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => changeListType('grid')}
+            style={[listOption, listViewType === 'grid' && listOptionGrid]}>
+            <Icons name="grid-outline" size={20} color={colors.white} />
+          </TouchableOpacity>
+        </View>
       </View>
 
       <FlatList
-        // style={{flex: 1}}
-        style={listContainer}
-        extraData={listType}
-        numColumns={listType === 'grid' ? 2 : 1}
-        key={listType === 'grid' ? 2 : 1}
+        style={!isFavorite && listContainer}
+        numColumns={listViewType === 'grid' ? 2 : 1}
+        key={listViewType === 'grid' ? 2 : 1}
         data={data}
         renderItem={renderItems}
+      />
+      <Filters
+        modalVisible={filter}
+        setModalVisible={value => setFilter(value)}
       />
     </>
   );

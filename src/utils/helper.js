@@ -9,4 +9,13 @@ const getURLParams = url => {
   return params;
 };
 
-export {getURLParams};
+const getEpisodeNumber = eps => {
+  if (!eps) {
+    return null;
+  }
+  let episodeNumber = eps.split('/');
+
+  return episodeNumber[episodeNumber.length - 1];
+};
+
+export {getURLParams, getEpisodeNumber};

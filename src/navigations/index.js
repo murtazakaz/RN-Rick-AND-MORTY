@@ -1,11 +1,13 @@
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Home from '../components/Home';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
+
 import colors from '../styles/colors';
 import {StyleSheet} from 'react-native';
+import Home from '../components/Home';
 import Details from '../components/Details';
+import Favorites from '../components/Favorites';
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +25,11 @@ function AppNavigator() {
             <Stack.Screen
               name="Details"
               component={Details}
+              options={{headerShown: false}}
+            />
+            <Stack.Screen
+              name="Favorites"
+              component={Favorites}
               options={{headerShown: false}}
             />
           </Stack.Navigator>

@@ -4,7 +4,7 @@ const colors = {
   third: 'rgba(255, 255, 255,0.7)',
   green: '#55cc44',
   red: '#d63e2e',
-  error: '#DB1B2E',
+  orange: '#ff9800',
   white: '#ffff',
 };
 

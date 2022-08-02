@@ -1,3 +1,5 @@
 import {combineReducers} from 'redux';
 import character from './charactersReducer';
-export default combineReducers({character});
+import episodes from './episodeReducer';
+import settings from './settingReducer';
+export default combineReducers({character, episodes, settings});

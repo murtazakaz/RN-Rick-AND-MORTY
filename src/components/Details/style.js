@@ -48,11 +48,34 @@ export default StyleSheet.create({
     textTransform: 'capitalize',
   },
   details: {marginBottom: normalize(10)},
-  label: {fontSize: normalize(14), color: colors.third, fontWeight: '400'},
+  label: {
+    fontSize: normalize(14),
+    color: colors.third,
+    fontWeight: '400',
+  },
   value: {
     fontSize: normalize(14),
     color: colors.white,
     fontWeight: '500',
     textTransform: 'capitalize',
   },
+  epsNo: {
+    fontSize: normalize(14),
+    color: colors.orange,
+    fontWeight: '500',
+    textTransform: 'capitalize',
+  },
+  epsTitle: {
+    fontSize: normalize(14),
+    color: colors.white,
+    fontWeight: '500',
+    textTransform: 'capitalize',
+  },
+  epsDate: {
+    fontSize: normalize(12),
+    color: colors.white,
+    fontWeight: '500',
+    textTransform: 'capitalize',
+  },
+  episodeContainer: {marginVertical: normalize(10)},
 });

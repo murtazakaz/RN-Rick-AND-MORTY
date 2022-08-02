@@ -5,7 +5,7 @@ import colors from '../../../styles/colors';
 import Icons from '../Icons';
 import style from './style';
 
-const Header = ({title, favourite, navigation, back}) => {
+const Header = ({title, favorites, navigation, back}) => {
   const {container, headerTitle, headerBack} = style;
   return (
     <View style={container}>
@@ -24,14 +24,14 @@ const Header = ({title, favourite, navigation, back}) => {
         <Text style={headerTitle}>{title}</Text>
       )}
 
-      {favourite && (
-        <View>
+      {favorites && (
+        <TouchableOpacity onPress={() => navigation.navigate('Favorites')}>
           <Icons
             name="bookmarks-outline"
             size={normalize(20)}
             color={colors.white}
           />
-        </View>
+        </TouchableOpacity>
       )}
     </View>
   );

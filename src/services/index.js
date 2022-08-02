@@ -8,7 +8,6 @@ const axiosWrapper = async (params, authUser = {}) => {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      //'x-api-key': Config.API_KEY
     },
   };
   apiParams.method = params.method;

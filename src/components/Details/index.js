@@ -1,25 +1,23 @@
-import {Image, ScrollView, Text, View} from 'react-native';
-import React, {Component} from 'react';
-import Lists from '../sharedComponents/Lists';
+import {Image, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import colors from '../../styles/colors';
 import Header from '../sharedComponents/Header';
-import {SafeAreaView} from 'react-native-safe-area-context';
 import style from './style';
 import Icons from '../sharedComponents/Icons';
+import {useDispatch, useSelector} from 'react-redux';
+import {markFavoriteCharacter} from '../../store/actions/characterActions';
+import {getEpisodeNumber} from '../../utils/helper';
+import _ from 'lodash';
+import {getEpisode} from '../../store/actions/episodeActions';
 
 const Details = ({navigation, route}) => {
+  const dispatch = useDispatch();
+  const {favorites} = useSelector(state => state.character);
+  const episodes = useSelector(state => state.episodes.data);
   const data = route.params.item;
-  const {
-    name,
-    image,
-    species,
-    origin,
-    episode,
-    gender,
-    location,
-    status,
-    isFavourite,
-  } = data;
+  const {name, image, species, origin, episode, gender, location, status, id} =
+    data;
+  const [readMore, setReadMore] = useState(episode?.length > 5 ? false : true);
   const {
     content,
     imageStyle,
@@ -34,9 +32,44 @@ const Details = ({navigation, route}) => {
     value,
     details,
     row,
+    container,
+    epsNo,
+    epsTitle,
+    episodeContainer,
+    epsDate,
   } = style;
 
-  const {container} = style;
+  useEffect(() => {
+    let allEpisodeIDs = [];
+    for (let i in episode) {
+      allEpisodeIDs.push(getEpisodeNumber(episode[i]));
+    }
+    allEpisodeIDs = _.uniq(allEpisodeIDs).join();
+    if (allEpisodeIDs) {
+      dispatch(getEpisode(allEpisodeIDs));
+    }
+  }, []);
+
+  const markFavorite = character => {
+    dispatch(markFavoriteCharacter(character));
+  };
+
+  const EpisodeAppearance = () => {
+    let allEpisodes = readMore ? episode : episode.slice(0, 5);
+    return allEpisodes.map(item => {
+      const eps = episodes[getEpisodeNumber(item)];
+      if (!eps) {
+        return null;
+      }
+      return (
+        <View style={episodeContainer}>
+          <Text style={epsNo}>{eps.episode}</Text>
+          <Text style={epsTitle}>{eps.name}</Text>
+          <Text style={epsDate}>{eps.air_date}</Text>
+        </View>
+      );
+    });
+  };
 
   const getStatusStyle = status => {
     switch (status) {
@@ -56,13 +89,13 @@ const Details = ({navigation, route}) => {
         <View style={content}>
           <View style={row}>
             <Text style={title}>{name}</Text>
-            <View style={col3}>
+            <TouchableOpacity onPress={() => markFavorite(data)} style={col3}>
               <Icons
-                name={isFavourite ? 'bookmark' : 'bookmark-outline'}
+                name={favorites[id] ? 'bookmark' : 'bookmark-outline'}
                 size={20}
-                color={colors.white}
+                color={favorites[id] ? colors.orange : colors.white}
               />
-            </View>
+            </TouchableOpacity>
           </View>
 
           <View style={statusContainer}>
@@ -83,18 +116,18 @@ const Details = ({navigation, route}) => {
           <Text style={value}>{location.name}</Text>
         </View>
         <View style={content}>
-          <Text style={label}>Seen in episodes</Text>
-          {episode.map(item => (
-            <Text style={value}>{item}</Text>
-          ))}
+          <Text style={label}>Seen in episodes ({episode.length})</Text>
+          <EpisodeAppearance />
+          {episode?.length < 5 ? null : (
+            <TouchableOpacity onPress={() => setReadMore(!readMore)}>
+              {readMore ? (
+                <Text style={label}>See less ....</Text>
+              ) : (
+                <Text style={label}>Read more ....</Text>
+              )}
+            </TouchableOpacity>
+          )}
         </View>
-        {/* <View style={col3}>
-        <Icons
-          name={isFavourite ? 'bookmark' : 'bookmark-outline'}
-          size={20}
-          color={colors.white}
-        />
-      </View> */}
       </ScrollView>
     </View>
   );

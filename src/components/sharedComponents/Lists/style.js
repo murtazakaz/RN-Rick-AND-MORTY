@@ -3,9 +3,6 @@ import normalize from 'react-native-normalize';
 import colors from '../../../styles/colors';
 
 export default StyleSheet.create({
-  container: {
-    // flex: 1,
-  },
   gridItemContainer: {
     backgroundColor: colors.primary,
     marginHorizontal: normalize(10),
@@ -27,7 +24,10 @@ export default StyleSheet.create({
   },
   col2: {flex: 0.45, justifyContent: 'center'},
   col3: {flex: 0.1, paddingVertical: normalize(10)},
-  gridCol2: {flex: 0.68, padding: normalize(10)},
+  gridCol2: {
+    paddingHorizontal: normalize(10),
+    paddingVertical: normalize(10),
+  },
   imageStyle: {
     aspectRatio: 0.8,
     width: normalize(150),
@@ -40,7 +40,16 @@ export default StyleSheet.create({
     borderTopStartRadius: normalize(10),
     borderTopEndRadius: normalize(10),
   },
-  title: {fontSize: normalize(16), color: colors.white, fontWeight: '700'},
+  title: {
+    fontSize: normalize(16),
+    color: colors.white,
+    fontWeight: '700',
+  },
+  gridTitle: {
+    fontSize: normalize(14),
+    color: colors.white,
+    fontWeight: '700',
+  },
   statusContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -77,8 +86,6 @@ export default StyleSheet.create({
     borderRadius: normalize(10),
     alignItems: 'center',
     alignSelf: 'flex-end',
-    // paddingHorizontal: normalize(10),
-    // paddingVertical: normalize(5),
     marginHorizontal: normalize(10),
     marginBottom: normalize(20),
     borderWidth: 1,
@@ -108,4 +115,10 @@ export default StyleSheet.create({
     paddingVertical: normalize(20),
   },
   listContainer: {height: '80%'},
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+  },
+  header: {flexDirection: 'row', justifyContent: 'space-between'},
 });
