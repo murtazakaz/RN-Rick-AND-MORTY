@@ -5,12 +5,18 @@ import axiosWrapper from '../../services';
 import {getEpisodeNumber, getURLParams} from '../../utils/helper';
 import {getCharacterSuccess} from '../actions/characterActions';
 import {getEpisode} from '../actions/episodeActions';
+
 function* fetchCharacters(action) {
-  const page = action.payload || 1;
+  const {page, filterQuery} = action.payload;
+  let query = `page=${page}`;
+
+  if (filterQuery) {
+    query = `${query}&${filterQuery}`;
+  }
 
   const params = {
     method: 'GET',
-    path: `character/?page=${page}`,
+    path: `character/?${query}`,
   };
   try {
     let result = yield call(axiosWrapper, params);

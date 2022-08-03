@@ -15,16 +15,22 @@ const Home = ({navigation}) => {
   const {info, data, favorites} = useSelector(state => state.character);
   const episodes = useSelector(state => state.episodes);
   const [page, setPage] = useState(1);
+  const [filterQuery, setFilterQuery] = useState(null);
 
   useEffect(() => {
-    dispatch(getCharacters(page));
+    dispatch(getCharacters({page, filterQuery}));
   }, []);
+
+  useEffect(() => {
+    setPage(1);
+    dispatch(getCharacters({page: 1, filterQuery}));
+  }, [filterQuery]);
 
   const goToNextPage = () => {
     if (info.next) {
       const params = getURLParams(info.next);
       if (params.page) {
-        dispatch(getCharacters(params.page));
+        dispatch(getCharacters({page: params.page, filterQuery}));
         setPage(params.page);
       }
     }
@@ -34,7 +40,7 @@ const Home = ({navigation}) => {
     if (info.prev) {
       const params = getURLParams(info.prev);
       if (params.page) {
-        dispatch(getCharacters(params.page));
+        dispatch(getCharacters({page: params.page, filterQuery}));
         setPage(params.page);
       }
     }
@@ -56,6 +62,9 @@ const Home = ({navigation}) => {
           episodes={episodes.data}
           markFavorite={markFavorite}
           favorites={favorites}
+          filterQuery={filterQuery}
+          setFilterQuery={query => setFilterQuery(query)}
+          isSearch={true}
         />
       </View>
 

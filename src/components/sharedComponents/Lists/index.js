@@ -16,6 +16,9 @@ const Lists = ({
   markFavorite,
   favorites,
   isFavorite,
+  isSearch,
+  filterQuery,
+  setFilterQuery,
 }) => {
   const dispatch = useDispatch();
   const listViewType = useSelector(state => state.settings.listViewType);
@@ -155,13 +158,6 @@ const Lists = ({
       <View style={header}>
         <View style={listOptionContainer}>
           <TouchableOpacity
-            onPress={() => setFilter(true)}
-            style={[listOption, listViewType !== 'grid' && listOptionList]}>
-            <Icons name="search-outline" size={20} color={colors.white} />
-          </TouchableOpacity>
-        </View>
-        <View style={listOptionContainer}>
-          <TouchableOpacity
             onPress={() => changeListType('list')}
             style={[listOption, listViewType !== 'grid' && listOptionList]}>
             <Icons name="list-outline" size={20} color={colors.white} />
@@ -172,6 +168,16 @@ const Lists = ({
             <Icons name="grid-outline" size={20} color={colors.white} />
           </TouchableOpacity>
         </View>
+
+        {isSearch && (
+          <View style={listOptionContainer}>
+            <TouchableOpacity
+              onPress={() => setFilter(true)}
+              style={[listOption, filterQuery && listOptionGrid]}>
+              <Icons name="search-outline" size={20} color={colors.white} />
+            </TouchableOpacity>
+          </View>
+        )}
       </View>
 
       <FlatList
@@ -181,10 +187,16 @@ const Lists = ({
         data={data}
         renderItem={renderItems}
       />
-      <Filters
-        modalVisible={filter}
-        setModalVisible={value => setFilter(value)}
-      />
+      {isSearch && (
+        <Filters
+          modalVisible={filter}
+          setModalVisible={value => setFilter(value)}
+          onFilter={data => {
+            setFilter(false);
+            setFilterQuery(data);
+          }}
+        />
+      )}
     </>
   );
 };

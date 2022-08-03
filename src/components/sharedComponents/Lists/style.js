@@ -82,7 +82,7 @@ export default StyleSheet.create({
   listOptionContainer: {
     flexDirection: 'row',
     backgroundColor: colors.primary,
-    justifyContent: 'space-between',
+    justifyContent: 'flex-end',
     borderRadius: normalize(10),
     alignItems: 'center',
     alignSelf: 'flex-end',
@@ -100,12 +100,12 @@ export default StyleSheet.create({
   listOptionList: {
     borderTopLeftRadius: normalize(10),
     borderBottomLeftRadius: normalize(10),
-    backgroundColor: colors.secondary,
+    backgroundColor: colors.orange,
   },
   listOptionGrid: {
     borderTopRightRadius: normalize(10),
     borderBottomRightRadius: normalize(10),
-    backgroundColor: colors.secondary,
+    backgroundColor: colors.orange,
   },
   paginationContainer: {
     flexDirection: 'row',

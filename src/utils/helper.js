@@ -18,4 +18,17 @@ const getEpisodeNumber = eps => {
   return episodeNumber[episodeNumber.length - 1];
 };
 
-export {getURLParams, getEpisodeNumber};
+const createSearchQueryParams = applyFilters => {
+  if (!applyFilters.length) {
+    return null;
+  }
+  const parts = applyFilters.map(param => {
+    return (
+      encodeURIComponent(param.key) + '=' + encodeURIComponent(param.value)
+    );
+  });
+
+  return parts.join('&');
+};
+
+export {getURLParams, getEpisodeNumber, createSearchQueryParams};
