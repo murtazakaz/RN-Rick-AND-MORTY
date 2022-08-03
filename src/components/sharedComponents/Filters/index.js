@@ -1,15 +1,6 @@
 import _ from 'lodash';
 import React, {useState} from 'react';
-import {
-  Alert,
-  FlatList,
-  Modal,
-  Pressable,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Modal, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import colors from '../../../styles/colors';
 import {genderTypes, statusTypes} from '../../../utils/constant';
 import {createSearchQueryParams} from '../../../utils/helper';
@@ -31,6 +22,13 @@ const Filters = ({modalVisible, setModalVisible, onFilter}) => {
     input,
     multiOptionsContainer,
     multiOptionSelected,
+    centeredView,
+    modalView,
+    modalText,
+    button,
+    buttonOpen,
+    buttonClose,
+    textStyle,
   } = style;
 
   const onClear = () => {
@@ -91,9 +89,9 @@ const Filters = ({modalVisible, setModalVisible, onFilter}) => {
       onRequestClose={() => {
         setModalVisible(!modalVisible);
       }}>
-      <View style={style.centeredView}>
-        <View style={style.modalView}>
-          <Text style={style.modalText}>Search in Rick & Morty's World!!!</Text>
+      <View style={centeredView}>
+        <View style={modalView}>
+          <Text style={modalText}>Search in Rick & Morty's World!!!</Text>
 
           <Text style={label}>Name</Text>
           <TextInput
@@ -122,16 +120,12 @@ const Filters = ({modalVisible, setModalVisible, onFilter}) => {
           <Text style={label}>Gender</Text>
           {renderOptions(genderTypes, gender, setGender)}
 
-          <TouchableOpacity
-            style={[style.button, style.buttonOpen]}
-            onPress={onSubmit}>
-            <Text style={style.textStyle}>Apply Filter</Text>
+          <TouchableOpacity style={[button, buttonOpen]} onPress={onSubmit}>
+            <Text style={textStyle}>Apply Filter</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
-            style={[style.button, style.buttonClose]}
-            onPress={onClear}>
-            <Text style={style.textStyle}>Clear all</Text>
+          <TouchableOpacity style={[button, buttonClose]} onPress={onClear}>
+            <Text style={textStyle}>Clear all</Text>
           </TouchableOpacity>
         </View>
       </View>

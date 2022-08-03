@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {Text, TouchableOpacity, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import Lists from '../sharedComponents/Lists';
@@ -16,6 +17,14 @@ const Home = ({navigation}) => {
   const episodes = useSelector(state => state.episodes);
   const [page, setPage] = useState(1);
   const [filterQuery, setFilterQuery] = useState(null);
+  const {
+    container,
+    paginationContainer,
+    button,
+    buttonOpen,
+    currentPage,
+    buttonDisable,
+  } = style;
 
   useEffect(() => {
     dispatch(getCharacters({page, filterQuery}));
@@ -50,30 +59,30 @@ const Home = ({navigation}) => {
     dispatch(markFavoriteCharacter(character));
   };
 
-  const {container, content, paginationContainer} = style;
   return (
     <View style={container}>
       <Header title={'Rick & Morty'} favorites navigation={navigation} />
 
-      <View style={content}>
-        <Lists
-          data={data[page] || []}
-          navigation={navigation}
-          episodes={episodes.data}
-          markFavorite={markFavorite}
-          favorites={favorites}
-          filterQuery={filterQuery}
-          setFilterQuery={query => setFilterQuery(query)}
-          isSearch={true}
-        />
-      </View>
+      <Lists
+        data={data[page] || []}
+        navigation={navigation}
+        episodes={episodes.data}
+        markFavorite={markFavorite}
+        favorites={favorites}
+        filterQuery={filterQuery}
+        setFilterQuery={query => setFilterQuery(query)}
+        isSearch={true}
+      />
 
       <View style={paginationContainer}>
-        <TouchableOpacity onPress={goToPrevPage}>
+        <TouchableOpacity
+          disabled={!info.prev}
+          style={[button, buttonOpen, !info.prev && buttonDisable]}
+          onPress={goToPrevPage}>
           <Text>Previous</Text>
         </TouchableOpacity>
-        <Text>{page}</Text>
-        <TouchableOpacity onPress={goToNextPage}>
+        <Text style={currentPage}>{page}</Text>
+        <TouchableOpacity style={[button, buttonOpen]} onPress={goToNextPage}>
           <Text>Next</Text>
         </TouchableOpacity>
       </View>

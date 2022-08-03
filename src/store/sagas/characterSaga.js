@@ -1,8 +1,8 @@
 const {default: types} = require('../actions/types');
 import _ from 'lodash';
-import {call, put, takeLatest, select} from 'redux-saga/effects';
+import {call, put, takeLatest} from 'redux-saga/effects';
 import axiosWrapper from '../../services';
-import {getEpisodeNumber, getURLParams} from '../../utils/helper';
+import {getEpisodeNumber} from '../../utils/helper';
 import {getCharacterSuccess} from '../actions/characterActions';
 import {getEpisode} from '../actions/episodeActions';
 

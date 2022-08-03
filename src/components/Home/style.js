@@ -6,14 +6,27 @@ export default StyleSheet.create({
   container: {
     backgroundColor: colors.secondary,
     flex: 1,
-    paddingBottom: normalize(20),
   },
-  content: {marginVertical: normalize(20)},
   paginationContainer: {
     flexDirection: 'row',
     justifyContent: 'space-evenly',
     alignItems: 'center',
-    backgroundColor: 'white',
-    paddingVertical: normalize(20),
+    paddingVertical: normalize(10),
   },
+  button: {
+    borderRadius: normalize(20),
+    paddingHorizontal: normalize(10),
+    paddingVertical: normalize(5),
+    elevation: 2,
+    minWidth: normalize(100),
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonOpen: {
+    backgroundColor: colors.white,
+  },
+  buttonDisable: {
+    backgroundColor: colors.primary,
+  },
+  currentPage: {fontSize: normalize(14), color: colors.orange},
 });

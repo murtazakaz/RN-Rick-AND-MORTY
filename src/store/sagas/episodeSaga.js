@@ -1,5 +1,5 @@
 const {default: types} = require('../actions/types');
-import {call, put, takeLatest, select} from 'redux-saga/effects';
+import {call, put, takeLatest} from 'redux-saga/effects';
 import axiosWrapper from '../../services';
 import {getEpisodeSuccess} from '../actions/episodeActions';
 function* fetchEpisode(action) {

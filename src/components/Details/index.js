@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {Image, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import colors from '../../styles/colors';
@@ -121,9 +122,9 @@ const Details = ({navigation, route}) => {
           {episode?.length < 5 ? null : (
             <TouchableOpacity onPress={() => setReadMore(!readMore)}>
               {readMore ? (
-                <Text style={label}>See less ....</Text>
+                <Text style={label}>See less...</Text>
               ) : (
-                <Text style={label}>Read more ....</Text>
+                <Text style={label}>Read more...</Text>
               )}
             </TouchableOpacity>
           )}

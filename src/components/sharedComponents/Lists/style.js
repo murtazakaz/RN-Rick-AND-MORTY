@@ -120,5 +120,9 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'flex-start',
   },
-  header: {flexDirection: 'row', justifyContent: 'space-between'},
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginTop: normalize(20),
+  },
 });

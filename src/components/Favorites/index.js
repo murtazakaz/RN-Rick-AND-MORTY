@@ -10,7 +10,6 @@ const Favorites = ({navigation}) => {
   const dispatch = useDispatch();
   const favoritesData = useSelector(state => state.character.favorites);
   const favorites = Object.keys(favoritesData).map(key => favoritesData[key]);
-
   const episodes = useSelector(state => state.episodes);
   const {container, content} = style;
 
