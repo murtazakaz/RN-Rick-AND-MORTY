@@ -82,7 +82,10 @@ const Home = ({navigation}) => {
           <Text>Previous</Text>
         </TouchableOpacity>
         <Text style={currentPage}>{page}</Text>
-        <TouchableOpacity style={[button, buttonOpen]} onPress={goToNextPage}>
+        <TouchableOpacity
+          disabled={!info.next}
+          style={[button, buttonOpen, !info.next && buttonDisable]}
+          onPress={goToNextPage}>
           <Text>Next</Text>
         </TouchableOpacity>
       </View>
